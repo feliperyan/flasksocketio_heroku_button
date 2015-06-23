@@ -9,6 +9,8 @@
 
 <h3 id="status"></h3>
 
+<ul id="scans"></ul>
+
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -28,7 +30,14 @@
     	console.log(response);
     	r = JSON.parse(response);
     	var user_feedback_message = document.getElementById('status');
-    	user_feedback_message.innerHTML = r.body;
+    	user_feedback_message.innerHTML = r.message;
+    });
+
+    socket.on('scan', function(response) {
+    	console.log(response);
+    	r = JSON.parse(response);
+    	var scan_info = document.getElementById('scans');
+    	scan_info.innerHTML = scan_info.innerHTML + '<li>' + r.message + '</li>' ;
     });
 
 </script>
