@@ -1,0 +1,7 @@
+{
+  "name": "Flask SocketIO Example Heroku App",
+  "description": "A barebones example of a SocketIO app running on Python Flask and deployable via a Heroku button",
+  "repository": "https://github.com/feliperyan/flasksocketio_heroku_button",
+  "logo": "http://flask.pocoo.org/static/logo.png",
+  "keywords": ["python", "flask", "websocket", "socketio"]
+}
