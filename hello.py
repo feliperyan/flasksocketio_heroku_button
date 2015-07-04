@@ -1,3 +1,7 @@
+# 
+# Felipe Ryan Jul 2015
+#
+
 from flask import Flask, render_template, jsonify, request
 from flask.ext.socketio import SocketIO, emit
 import json
@@ -17,16 +21,19 @@ def hello():
 def receive_scan_from_api():
     if not request.json:
         abort(400)
-    print request.json
-    
-    msg = json.dumps({'message':'Received Scan'})
-    socketio.emit('scan', msg)
 
+    msg = json.dumps(request.json)
+
+    print '\nJson Received from External Source:'
+    print msg
+    print '\n'
+    
+    socketio.emit('scan', msg)
     return jsonify({'Response':'All ok'}), 201
 
 
 # Actual Socket Events
-@socketio.on('first connect')
+@socketio.on('ping')
 def handle_my_custom_event(jsonMessage):
     print('received json: ' + str(jsonMessage))
     reply = json.dumps({'message':'You are connected'})

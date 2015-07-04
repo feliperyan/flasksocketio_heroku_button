@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html>
+<!--
+    Felipe Ryan Jul 2015
+-->
 <head>
-	<title></title>
+	<title>Testing websockets</title>
+
+    <style type="text/css">
+        .dark {
+            background-color: #222222;
+            color: #33FF33;
+            font-family: "Lucida Console", Monaco, monospace;
+        }
+    </style>
 </head>
-<body>
 
-<h1> Hello World </h1>
+<body class="dark">
 
-<h3 id="status"></h3>
+    <h1> Test page to verify the connection </h1>
 
-<ul id="scans"></ul>
+    <h3 id="status">Not yet connected...</h3>
+
+    <p>Messages received:</p>
+    <ul id="scans"></ul>
 
 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-<script type="text/javascript" charset="utf-8">
-	if(document.domain === 'localhost') {
-		var socket = io.connect('http://' + document.domain + ':' + location.port);	
-	}
-	else {
-		var socket = io.connect('https://' + document.domain + ':' + location.port);	
-	}
-    
-    
-    socket.on('connect', function() {
-        socket.emit('first connect', {data: 'I\'m connected!'});
-    });
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io.connect('//' + document.domain + ':' + location.port); 
+          
+        socket.on('connect', function() {
+            socket.emit('ping', {data: 'Client connected!'});
+        });
 
-    socket.on('pong', function(response) {
-    	console.log(response);
-    	r = JSON.parse(response);
-    	var user_feedback_message = document.getElementById('status');
-    	user_feedback_message.innerHTML = r.message;
-    });
+        socket.on('pong', function(response) {
+        	console.log(response);
+        	r = JSON.parse(response);
+        	var user_feedback_message = document.getElementById('status');
+        	user_feedback_message.innerHTML = r.message;
+        });
 
-    socket.on('scan', function(response) {
-    	console.log(response);
-    	r = JSON.parse(response);
-    	var scan_info = document.getElementById('scans');
-    	scan_info.innerHTML = scan_info.innerHTML + '<li>' + r.message + '</li>' ;
-    });
+        socket.on('scan', function(response) {
+        	console.log(response);
+        	r = JSON.parse(response);
+        	var scan_info = document.getElementById('scans');
+        	scan_info.innerHTML = scan_info.innerHTML + '<li>' + r.message + '</li>' ;
+        });
 
-</script>
+    </script>
 
 </body>
 </html>
