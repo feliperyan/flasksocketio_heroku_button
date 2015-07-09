@@ -5,5 +5,5 @@
 You can use curl to send messages to the server which will be reflected live on index.html
 
 ```
-curl -i -H "Content-Type: applicatio/json" -X POST -d '{"message":"Read a book"}' http://localhost:5000/api/v1.0/scans
+curl -i -H "Content-Type: application/json" -X POST -d '{"message":"Read a book"}' http://localhost:5000/api/v1.0/scans
 ```
