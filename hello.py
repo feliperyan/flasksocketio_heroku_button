@@ -18,7 +18,7 @@ def hello():
     return render_template('index.html')
 
 
-@app.route('/api/v1.0/scans', methods=['POST'])
+@app.route('/api/v1.0/scans', methods=['POST', 'OPTIONS'])
 @crossdomain(origin='*')
 def receive_scan_from_api():
     if not request.json:
@@ -31,6 +31,7 @@ def receive_scan_from_api():
     print '\n'
     
     socketio.emit('scan', msg)
+
     return jsonify({'Response':'All ok'}), 201
 
 
