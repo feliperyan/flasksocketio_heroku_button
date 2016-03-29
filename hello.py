@@ -22,7 +22,7 @@ def hello():
 @crossdomain(origin='*')
 def receive_scan_from_api():
     if not request.json:
-        return
+        return 'not json...'
 
     msg = json.dumps(request.json)
 
