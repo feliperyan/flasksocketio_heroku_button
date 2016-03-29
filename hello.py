@@ -5,6 +5,7 @@
 from flask import Flask, render_template, jsonify, request
 from flask.ext.socketio import SocketIO, emit
 import json
+from corsdecorator import crossdomain
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -18,6 +19,7 @@ def hello():
 
 
 @app.route('/api/v1.0/scans', methods=['POST'])
+@crossdomain(origin='*')
 def receive_scan_from_api():
     if not request.json:
         abort(400)
