@@ -2,7 +2,7 @@
 # Felipe Ryan Jul 2015
 #
 
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, abort
 from flask.ext.socketio import SocketIO, emit
 import json
 from corsdecorator import crossdomain
@@ -22,7 +22,7 @@ def hello():
 @crossdomain(origin='*')
 def receive_scan_from_api():
     if not request.json:
-        abort(400)
+        return
 
     msg = json.dumps(request.json)
 
