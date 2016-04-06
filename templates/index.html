@@ -12,22 +12,33 @@
             color: #33FF33;
             font-family: "Lucida Console", Monaco, monospace;
         }
+        .flex-content{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
     </style>
 </head>
 
 <body class="dark">
-
-    <h1> Test page to verify the connection </h1>
-
-    <h3 id="status">Not yet connected...</h3>
-
-    <p>Messages received:</p>
-    <ul id="scans"></ul>
+    
+    <div style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(0,0,0,0.6);">
+        <div class="flex-content" style="width: 100%; height: 100%; text-align: center;">
+            <video src="https://dl.dropboxusercontent.com/u/50765818/herokuanimation.mp4" height="600" >
+                Your browser does not support the <code>video</code> element.
+            </video>
+        </div>
+    </div>
 
 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
     <script type="text/javascript" charset="utf-8">
-        var socket = io.connect('//' + document.domain + ':' + location.port); 
+        // Connect to Heroku Websocket
+        var socket = io.connect('//' + document.domain + ':' + location.port);
+
+        // Get video element
+        var infographic = document.getElementsByTagName("video")[0];
           
         socket.on('connect', function() {
             socket.emit('ping', {data: 'Client connected!'});
@@ -43,8 +54,11 @@
         socket.on('scan', function(response) {
         	console.log(response);
         	r = JSON.parse(response);
-        	var scan_info = document.getElementById('scans');
-        	scan_info.innerHTML = scan_info.innerHTML + '<li>' + r.message + '</li>' ;
+        	// var scan_info = document.getElementById('scans');
+        	// scan_info.innerHTML = scan_info.innerHTML + '<li>' + r.message + '</li>' ;
+
+            infographic.play();
+
         });
 
     </script>
