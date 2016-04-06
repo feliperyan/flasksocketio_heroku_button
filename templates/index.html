@@ -39,7 +39,24 @@
 
         // Get video element
         var infographic = document.getElementsByTagName("video")[0];
-          
+        var playingFromDataReceived = false;
+        var idling = false;
+
+        infographic.addEventListener("seeked", function() { document.getElementsByTagName("video")[0].play(); }, true);
+        
+        infographic.addEventListener("ended", function() {
+            // Ended a data event full play, so move to the idling animation
+            if(playingFromDataReceived) {
+                playingFromDataReceived = false;
+                idling = true;
+                document.getElementsByTagName("video")[0].currentTime = 14;
+            }
+            if(idling) {                
+                document.getElementsByTagName("video")[0].currentTime = 14;
+            }
+        }, true);
+
+
         socket.on('connect', function() {
             socket.emit('ping', {data: 'Client connected!'});
         });
@@ -47,8 +64,8 @@
         socket.on('pong', function(response) {
         	console.log(response);
         	r = JSON.parse(response);
-        	var user_feedback_message = document.getElementById('status');
-        	user_feedback_message.innerHTML = r.message;
+        	//var user_feedback_message = document.getElementById('status');
+        	//user_feedback_message.innerHTML = r.message;
         });
 
         socket.on('scan', function(response) {
@@ -57,7 +74,11 @@
         	// var scan_info = document.getElementById('scans');
         	// scan_info.innerHTML = scan_info.innerHTML + '<li>' + r.message + '</li>' ;
 
-            infographic.play();
+            if (!playingFromDataReceived){
+                playingFromDataReceived = true;
+                idling = false;
+                infographic.currentTime = 0;
+            }            
 
         });
 
